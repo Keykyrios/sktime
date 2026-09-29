@@ -594,22 +594,17 @@ class ThetaModularForecaster(BaseForecaster):
                 ("naive1", NaiveForecaster(), 1),
             ]
         }
+        params_no_deps = {
+            "forecasters": [
+                ("naive", NaiveForecaster(), 0),
+                ("naive1", NaiveForecaster(), 1),
+            ],
+            "aggfunc": "median",
+        }
         params1 = {"theta_values": (0, 3)}
         params2 = {"weights": [1.0, 0.8]}
 
         # params1 and params2 invoke ExponentialSmoothing which requires statsmodels
         if _check_estimator_deps(ExponentialSmoothing, severity="none"):
-            params = [params0, params1, params2]
-        else:
-            # second set: same forecasters, median aggregation tests a different
-            # aggregation code path without requiring statsmodels
-            params_fallback = {
-                "forecasters": [
-                    ("naive", NaiveForecaster(), 0),
-                    ("naive1", NaiveForecaster(), 1),
-                ],
-                "aggfunc": "median",
-            }
-            params = [params0, params_fallback]
-
-        return params
+            return [params0, params1, params2]
+        return [params0, params_no_deps]
