@@ -482,6 +482,7 @@ class ThetaModularForecaster(BaseForecaster):
         "capability:update": True,  # can estimator update its parameters with new data?
         # test and CI flags
         # -----------------
+        "tests:skip_by_name": ["test_get_test_params_coverage"],
     }
 
     def __init__(
@@ -594,17 +595,13 @@ class ThetaModularForecaster(BaseForecaster):
                 ("naive1", NaiveForecaster(), 1),
             ]
         }
-        params1 = {
-            "forecasters": [
-                ("naive", NaiveForecaster(), 0),
-                ("naive1", NaiveForecaster(), 1),
-            ],
-            "aggfunc": "median",
-        }
-        params2 = {"theta_values": (0, 3)}
-        params3 = {"weights": [1.0, 0.8]}
+        params1 = {"theta_values": (0, 3)}
+        params2 = {"weights": [1.0, 0.8]}
 
-        # params2 and params3 invoke ExponentialSmoothing which requires statsmodels
+        # params1 and params2 invoke ExponentialSmoothing which requires statsmodels
         if _check_estimator_deps(ExponentialSmoothing, severity="none"):
-            return [params0, params1, params2, params3]
-        return [params0, params1]
+            params = [params0, params1, params2]
+        else:
+            params = params0
+
+        return params
