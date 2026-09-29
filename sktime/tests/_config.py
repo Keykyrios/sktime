@@ -56,7 +56,6 @@ EXCLUDE_SOFT_DEPS = [
     "RegressorPipeline",
     "SupervisedIntervals",
     "TSBootstrapAdapter",
-    "ThetaModularForecaster",
     "WeightedEnsembleClassifier",
 ]
 
