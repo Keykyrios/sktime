@@ -161,7 +161,6 @@ class TemporalDictionaryEnsemble(BaseClassifier):
         "capability:random_state": True,
         "property:randomness": "derandomized",
         "classifier_type": "dictionary",
-        "tests:skip_by_name": ["test_get_test_params_coverage"],
     }
 
     def __init__(
@@ -591,12 +590,19 @@ class TemporalDictionaryEnsemble(BaseClassifier):
                 "randomly_selected_params": 5,
             }
         else:
-            return {
+            param1 = {
                 "n_parameter_samples": 5,
                 "max_ensemble_size": 2,
                 "randomly_selected_params": 3,
                 "save_train_predictions": True,
             }
+            param2 = {
+                "n_parameter_samples": 5,
+                "max_ensemble_size": 2,
+                "randomly_selected_params": 3,
+                "bigrams": True,
+            }
+            return [param1, param2]
 
 
 class IndividualTDE(BaseClassifier):
